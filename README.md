@@ -1,6 +1,6 @@
 # plugin_android_apk
 
-A new Flutter plugin.
+A Flutter plugin for installing android apk.
 
 ## Getting Started
 
