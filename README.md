@@ -3,8 +3,15 @@
 A Flutter plugin for installing android apk.
 
 ## Getting Started
+add in pubspec.yaml
+```dart
+plugin_android_apk:0.0.1
+```
 
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
+```dart
+import 'package:plugin_android_apk/plugin_android_apk.dart';
 
-For help on editing plugin code, view the [documentation](https://flutter.io/platform-plugins/#edit-code).
+AndroidApkPlugin.installApk(toFile.path);
+or
+AndroidApkPlugin.installApk(toFile.path, authority: 'xx.xx.FileProvider');
+```
