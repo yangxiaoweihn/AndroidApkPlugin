@@ -1,0 +1,19 @@
+name: plugin_android_apk
+description: A new Flutter plugin.
+version: 0.0.1
+author:
+homepage:
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+# For information on the generic Dart part of this file, see the
+# following page: https://www.dartlang.org/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+  plugin:
+    androidPackage: ws.dyt.plugin.androidapk
+    pluginClass: AndroidApkPlugin
+
