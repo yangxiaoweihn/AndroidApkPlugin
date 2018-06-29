@@ -1,6 +1,6 @@
 # plugin_android_apk
 
-A Flutter plugin for installing android apk.
+A Flutter plugin for apk installation and selecting markets.
 
 ## Getting Started
 add in pubspec.yaml
