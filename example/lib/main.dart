@@ -80,6 +80,22 @@ class _MyAppState extends State<MyApp> {
                             this._printLog('invoke to market callback: \n$result');
                         });
                     },
+                ),
+
+                new ListTile(
+                    title: new Text('to market detail by sys'),
+                    onTap: () {
+                        this._printLog('invoke to market detail by sys');
+                        AndroidApkPlugin.invokeToMarketByDetailsWithSys();
+                    },
+                ),
+
+                new ListTile(
+                    title: new Text('to market search by sys'),
+                    onTap: () {
+                        this._printLog('invoke to market search by sys');
+                        AndroidApkPlugin.invokeToMarketBySearchWithSys();
+                    },
                 )
             ],
         );

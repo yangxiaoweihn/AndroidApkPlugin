@@ -72,18 +72,13 @@ class AndroidApkPlugin(private val registrar: Registrar) : MethodChannel.MethodC
         LLog.setDebug(debug)
         LLog.d(Tag.TAG, "${call.arguments}")
 
-        if (method == "installApk") {
-
-            this.handleInstallApk(call, result)
-        } else if(method == "queryMarketApp") {
-
-            this.handleQueryMarketApp(call, result)
-        } else if(method == "toMarket") {
-
-            this.handleToMarket(call, result)
-        } else {
-
-            result.notImplemented()
+        when(method) {
+            "installApk" -> this.handleInstallApk(call, result)
+            "queryMarketApp" -> this.handleQueryMarketApp(call, result)
+            "toMarket" -> this.handleToMarket(call, result)
+            "toMarketByDetailsWithSys" -> this.handleToMarketByDetailsWithSys(call, result)
+            "toMarketBySearchWithSys" -> this.handleToMarketBySearchWithSys(call, result)
+            else -> result.notImplemented()
         }
     }
 
@@ -112,19 +107,55 @@ class AndroidApkPlugin(private val registrar: Registrar) : MethodChannel.MethodC
 
     private fun handleToMarket(call: MethodCall, result: Result) {
 
+        val context = registrar.context()
         var paramKey = "marketAppPackage"
-        val marketAppPackage: String? = if (call.hasArgument(paramKey)) call.argument(paramKey) else null
+        var marketAppPackage: String? = if (call.hasArgument(paramKey)) call.argument(paramKey) else null
         LLog.d(Tag.TAG, "marketAppPackage: $marketAppPackage")
 
-        if (null == marketAppPackage || marketAppPackage.isEmpty()) {
+        if (if(null != marketAppPackage) marketAppPackage.isEmpty() else true) {
 
-            result.error("error", "nee param: $marketAppPackage", null)
-        }else {
+            paramKey = "toDefaultIfNotFound"
+            val toDefault = call.hasArgument(paramKey) && call.argument(paramKey)
+            if (toDefault) {
 
-            result.success("ok")
-            val context = registrar.context()
-            Market.launchMarketAppToDetail(context, Apps.queryCurrentAppProcessName(context), marketAppPackage!!)
+                //query market app
+                val packages = Apps.queryMarketAppsOnlyByFlag(context)
+                if (packages.isNotEmpty()) {
+                    marketAppPackage = packages[0]
+                }else {
+                    //query others
+                    val apps = Apps.queryInstalledMarketAppsInfo(context, Apps.markets)
+                    if (apps.isNotEmpty()) {
+                        marketAppPackage = apps[0].packageName
+                    }
+                }
+            }else {
+
+                result.error("error", "must specify market-app-package", null)
+            }
         }
+
+        result.success("ok")
+        Market.launchMarketAppByDetail(context, Apps.queryCurrentAppProcessName(context), marketAppPackage!!)
+    }
+
+    private fun handleToMarketByDetailsWithSys(call: MethodCall, result: Result) {
+        val context = registrar.context()
+        result.success("ok")
+        Market.launchMarketAppByDetail(
+                context,
+                Apps.queryCurrentAppProcessName(context),
+                null
+        )
+    }
+
+    private fun handleToMarketBySearchWithSys(call: MethodCall, result: Result) {
+        val context = registrar.context()
+        result.success("ok")
+        Market.launchMarketAppBySearch(
+                context,
+                Apps.queryCurrentAppProcessName(context)
+        )
     }
 
     private fun handleQueryMarketApp(call: MethodCall, result: Result) {
@@ -136,7 +167,7 @@ class AndroidApkPlugin(private val registrar: Registrar) : MethodChannel.MethodC
         if (null != inPackageParam) {
             filter.addAll(inPackageParam)
         }
-        filter.addAll(Apps.queryMarketApps(registrar.context()))
+        filter.addAll(Apps.queryMarketAppsOnlyByFlag(registrar.context()))
         filter.addAll(Apps.markets)
 
         val apps = Apps.queryInstalledMarketAppsInfo(registrar.context(), filter)
@@ -163,4 +194,5 @@ class AndroidApkPlugin(private val registrar: Registrar) : MethodChannel.MethodC
             result.error("error", "market app not found", null)
         }
     }
+
 }

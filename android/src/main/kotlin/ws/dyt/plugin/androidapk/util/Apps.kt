@@ -30,7 +30,7 @@ object Apps {
     /**
      * search apps of support market
      */
-    fun queryMarketApps(context: Context): List<String> {
+    fun queryMarketAppsOnlyByFlag(context: Context): List<String> {
 
         val intent = Intent()
         intent.action = Intent.ACTION_MAIN

@@ -43,12 +43,25 @@ class AndroidApkPlugin {
 
     //to market
     /// [marketPackage] if null, will jump to default market
-    static Future<String> invokeToMarket({String marketPackage}) async{
+    static Future<String> invokeToMarket({String marketPackage, bool toDefaultIfNotFound = true}) async{
 
         Map<String, dynamic> data = {
             'debug': LLog.debug,
             'marketAppPackage': marketPackage,
+            'toDefaultIfNotFound': toDefaultIfNotFound ?? true,
         };
         return await _channel.invokeMethod('toMarket', data);
+    }
+
+    //called by system
+    static Future<Null> invokeToMarketByDetailsWithSys() async{
+
+        await _channel.invokeMethod('toMarketByDetailsWithSys');
+    }
+
+    //called by system
+    static Future<Null> invokeToMarketBySearchWithSys() async{
+
+        await _channel.invokeMethod('toMarketBySearchWithSys');
     }
 }

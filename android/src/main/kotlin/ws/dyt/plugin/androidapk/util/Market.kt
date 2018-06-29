@@ -10,17 +10,30 @@ import android.text.TextUtils
  */
 object Market {
 
-    fun launchMarketAppToDetail(context: Context, appPackage: String, marketAppPackage: String) {
+    fun launchMarketAppByDetail(context: Context, appPackage: String, marketAppPackage: String?) {
+        if (TextUtils.isEmpty(appPackage)) {
+            return
+        }
         try {
-            if (TextUtils.isEmpty(appPackage)) {
-                return
-            }
             val uri: Uri = Uri.parse("market://details?id=$appPackage")
             val intent = Intent(Intent.ACTION_VIEW, uri)
             if (!TextUtils.isEmpty(marketAppPackage)) {
                 intent.`package` = marketAppPackage
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun launchMarketAppBySearch(context: Context, appPackage: String) {
+        if (TextUtils.isEmpty(appPackage)) {
+            return
+        }
+        try {
+            val uri: Uri = Uri.parse("market://search?q=$appPackage")
+            val intent = Intent(Intent.ACTION_VIEW, uri)
             context.startActivity(intent)
         } catch (e: Exception) {
             e.printStackTrace()
