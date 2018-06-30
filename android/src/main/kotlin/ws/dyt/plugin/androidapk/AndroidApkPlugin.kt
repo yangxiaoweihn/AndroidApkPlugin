@@ -112,7 +112,7 @@ class AndroidApkPlugin(private val registrar: Registrar) : MethodChannel.MethodC
         var marketAppPackage: String? = if (call.hasArgument(paramKey)) call.argument(paramKey) else null
         LLog.d(Tag.TAG, "marketAppPackage: $marketAppPackage")
 
-        if (if(null != marketAppPackage) marketAppPackage.isEmpty() else true) {
+        if (marketAppPackage.isNullOrEmpty()) {
 
             paramKey = "toDefaultIfNotFound"
             val toDefault = call.hasArgument(paramKey) && call.argument(paramKey)

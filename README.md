@@ -5,7 +5,7 @@ A Flutter plugin for apk installation and selecting markets.
 ## Getting Started
 add in pubspec.yaml
 ```dart
-plugin_android_apk: "^0.0.2"
+plugin_android_apk: "^0.0.3"
 ```
 ### 1. import
 ```dart

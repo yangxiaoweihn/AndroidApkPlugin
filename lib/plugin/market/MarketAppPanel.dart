@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:plugin_android_apk/plugin/market/AppInfo.dart';
 
+// webp 1px*1px 01ffffff ARGB_4444
+const String _placeHolder = "UklGRkIAAABXRUJQVlA4WAoAAAAQAAAAAAAAAAAAQUxQSAIAAAAAAVZQOCAaAAAAMAEAnQEqAQABAAAAACWkAANwAP7/3tzwAAA=";
+
 /// Created by yangxiaowei at 2018/06/28
 class MarketAppPanel extends StatelessWidget {
 
@@ -11,24 +14,31 @@ class MarketAppPanel extends StatelessWidget {
 
         showModalBottomSheet(
             context: context,
-            builder: (context) => new MarketAppPanel(apps),
+            builder: (context) => new MarketAppPanel(apps, context: context,),
         );
     }
 
     final List<AppInfo> apps;
+    final double _pixelRatio;
+    final Uint8List _placeHolderByts;
     MarketAppPanel(
-        this.apps
-    );
+        this.apps,
+        {
+            BuildContext context,
+        }
+    ): 
+        this._pixelRatio = MediaQuery.of(context).devicePixelRatio,
+        this._placeHolderByts = base64.decode(_placeHolder)
+    ;
 
-    double _pixelRatio = .0;
     @override
     Widget build(BuildContext context) {
-        this._pixelRatio = this._pixelRatio == 0 ? MediaQuery.of(context).devicePixelRatio : this._pixelRatio;
 
         Widget con = Container(
-            padding: new EdgeInsets.only(
-                top: 20.0,
-            ),
+            color: Colors.white,
+            // padding: new EdgeInsets.symmetric(
+            //     vertical: 20.0,
+            // ),
             // decoration: new BoxDecoration(
             //     borderRadius: new BorderRadius.only(
             //         topLeft: new Radius.circular(20.0),
@@ -40,22 +50,27 @@ class MarketAppPanel extends StatelessWidget {
             child: this._grid(),
         );
 
-        // return new ClipRRect(
-        //     borderRadius: new BorderRadius.only(
-        //         topLeft: new Radius.circular(20.0),
-        //         topRight: new Radius.circular(20.0),
-        //     ),
-        //     child: new Wrap(
-        //         children: <Widget>[
-        //             con
-        //         ],
-        //     ),
-        // );
+        Widget _cancel = new FlatButton(
+            onPressed: () {
+                Navigator.maybePop(context);
+            },
+            color: Colors.white,
+            child: new SizedBox(
+                width: double.infinity,
+                height: 48.0,
+                child: new Align(
+                    alignment: Alignment.center,
+                    child: new Text('取消', style: new TextStyle(
+                        fontSize: 16.0,
+                    ),),
+                ),
+            ),
+        );
 
         return new Wrap(
-        
             children: <Widget>[
-                con
+                con,
+                _cancel,
             ],
         );
     }
@@ -63,21 +78,29 @@ class MarketAppPanel extends StatelessWidget {
     Widget _grid() {
 
         Widget _itemWidget(AppInfo app) {
-            var bytes = base64.decode(app.appIcon);
             Widget itemWidget = Column(
                 children: <Widget>[
                     new FadeInImage(
                         width: (app.appIconWidth?.toDouble() ?? 64.0 * _pixelRatio) / _pixelRatio,
                         height: (app.appIconHeight?.toDouble() ?? 64.0 * _pixelRatio) / _pixelRatio,
-                        placeholder: new MemoryImage(new Uint8List(0)),
-                        image: new MemoryImage(bytes),
+                        placeholder: new MemoryImage(this._placeHolderByts),
+                        image: new MemoryImage(base64.decode(app.appIcon)),
                     ),
                     new SizedBox(
                         height: 5.0,
                     ),
-                    new Text('${app.appName}'),
+                    new Text(
+                        '${app.appName}', 
+                        style: new TextStyle(
+                            fontSize: 14.0,
+                        ),
+                        maxLines: 1,
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                    ),
                 ],
                 mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
             );
 
             return itemWidget;
