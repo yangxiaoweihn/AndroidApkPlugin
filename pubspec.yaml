@@ -6,7 +6,7 @@ homepage: https://github.com/yangxiaoweihn/AndroidApkPlugin
 documentation: https://github.com/yangxiaoweihn/AndroidApkPlugin
 
 environment:
-  sdk: '>=1.19.0'
+  sdk: '>=1.19.0 <=10.0.0'
   flutter: '>=0.1.2'
 
 dependencies:
