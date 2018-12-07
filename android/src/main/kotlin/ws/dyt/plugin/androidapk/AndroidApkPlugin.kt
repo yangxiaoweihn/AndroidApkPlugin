@@ -68,7 +68,7 @@ class AndroidApkPlugin(private val registrar: Registrar) : MethodChannel.MethodC
     override fun onMethodCall(call: MethodCall, result: Result) {
         val method = call.method
         val debugKey = "debug"
-        val debug = call.hasArgument(debugKey) && call.argument(debugKey)
+        val debug = call.hasArgument(debugKey) && (call.argument(debugKey) ?: false)
         LLog.setDebug(debug)
         LLog.d(Tag.TAG, "${call.arguments}")
 
@@ -115,7 +115,7 @@ class AndroidApkPlugin(private val registrar: Registrar) : MethodChannel.MethodC
         if (marketAppPackage.isNullOrEmpty()) {
 
             paramKey = "toDefaultIfNotFound"
-            val toDefault = call.hasArgument(paramKey) && call.argument(paramKey)
+            var toDefault = call.hasArgument(paramKey) && (call.argument(paramKey) ?: false)
             if (toDefault) {
 
                 //query market app

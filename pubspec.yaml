@@ -1,6 +1,6 @@
 name: plugin_android_apk
 description: A Flutter plugin for installing android apk.
-version: 0.0.5
+version: 1.0.0
 author: lingjinian <hn_yangxiaowei@163.com>
 homepage: https://github.com/yangxiaoweihn/AndroidApkPlugin
 documentation: https://github.com/yangxiaoweihn/AndroidApkPlugin
