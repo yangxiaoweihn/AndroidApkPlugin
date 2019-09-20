@@ -5,6 +5,6 @@
 /build
 /captures
 *.project
-.idea/
+*.idea/
 *.settings
 *.classpath
