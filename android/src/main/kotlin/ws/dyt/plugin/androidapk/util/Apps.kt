@@ -93,7 +93,7 @@ class Apps {
                             appInfo.versionCode = packageInfo.versionCode
                             appInfo.versionName = packageInfo.versionName
 
-                            val icon = packageInfo.applicationInfo.loadIcon(pm)
+                            val icon = pm.getApplicationIcon(packageInfo.applicationInfo)
                             appInfo.appIcon = Drawables.bitmapToBase64(Drawables.drawable2Bitmap(icon))
                             appInfo.appIconWidth = icon?.intrinsicWidth
                             appInfo.appIconHeight = icon?.intrinsicHeight

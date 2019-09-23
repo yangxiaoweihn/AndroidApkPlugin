@@ -2,7 +2,6 @@ package ws.dyt.plugin.androidapk.util
 
 import android.content.res.Resources
 import android.graphics.*
-import android.graphics.drawable.NinePatchDrawable
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import java.io.ByteArrayOutputStream
@@ -23,19 +22,14 @@ class Drawables {
                 return drawable.bitmap
             }
 
-            if (drawable is NinePatchDrawable) {
+            val config = if (drawable.opacity != PixelFormat.OPAQUE) Bitmap.Config.ARGB_8888 else Bitmap.Config.RGB_565
 
-                val config = if (drawable.opacity != PixelFormat.OPAQUE) Bitmap.Config.ARGB_8888 else Bitmap.Config.RGB_565
+            val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, config)
 
-                val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, config)
-
-                val canvas = Canvas(bitmap)
-                drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
-                drawable.draw(canvas)
-                return bitmap
-            }
-
-            return null
+            val canvas = Canvas(bitmap)
+            drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+            drawable.draw(canvas)
+            return bitmap
         }
 
         @JvmStatic

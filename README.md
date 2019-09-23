@@ -5,7 +5,7 @@ A Flutter plugin for apk installation and selecting markets.
 ## Getting Started
 add in pubspec.yaml
 ```dart
-plugin_android_apk: "^0.0.3"
+plugin_android_apk: "^1.1.0"
 ```
 ### 1. import
 ```dart
@@ -14,8 +14,11 @@ import 'package:plugin_android_apk/plugin_android_apk.dart';
 ### 2. install apk
 ```dart
 AndroidApkPlugin.installApk(toFile.path);
-or
-AndroidApkPlugin.installApk(toFile.path, authority: 'xx.xx.FileProvider');
+权限描述在xml/aap_apk_cache_filepath.xml文件中，默认apk缓存目录为
+context.getExternalCacheDir().getPath()/apk;
+context.getCacheDir().getPath()/apk;
+
+可以通过重写该资源文件进行自定义目录
 ```
 ### 3. query market apps
 ```dart

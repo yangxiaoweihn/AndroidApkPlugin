@@ -20,15 +20,15 @@ class MarketAppPanel extends StatelessWidget {
 
     final List<AppInfo> apps;
     final double _pixelRatio;
-    final Uint8List _placeHolderByts;
+    final Uint8List _placeHolderBytes;
     MarketAppPanel(
         this.apps,
         {
             BuildContext context,
         }
-    ): 
+    ):
         this._pixelRatio = MediaQuery.of(context).devicePixelRatio,
-        this._placeHolderByts = base64.decode(_placeHolder)
+        this._placeHolderBytes = base64.decode(_placeHolder)
     ;
 
     @override
@@ -78,19 +78,23 @@ class MarketAppPanel extends StatelessWidget {
     Widget _grid() {
 
         Widget _itemWidget(AppInfo app) {
+//            width: (app.appIconWidth?.toDouble() ?? 64.0 * _pixelRatio) / _pixelRatio,
+//            height: (app.appIconHeight?.toDouble() ?? 64.0 * _pixelRatio) / _pixelRatio,
+            var iconSize = 56.0;//用默认大小
             Widget itemWidget = Column(
                 children: <Widget>[
                     new FadeInImage(
-                        width: (app.appIconWidth?.toDouble() ?? 64.0 * _pixelRatio) / _pixelRatio,
-                        height: (app.appIconHeight?.toDouble() ?? 64.0 * _pixelRatio) / _pixelRatio,
-                        placeholder: new MemoryImage(this._placeHolderByts),
-                        image: new MemoryImage(base64.decode(app.appIcon)),
+                        width: iconSize,
+                        height: iconSize,
+                        fit: BoxFit.fill,
+                        placeholder: new MemoryImage(this._placeHolderBytes),
+                        image: new MemoryImage(app.appIcon == null ? this._placeHolderBytes : base64.decode(app.appIcon)),
                     ),
                     new SizedBox(
                         height: 5.0,
                     ),
                     new Text(
-                        '${app.appName}', 
+                        '${app.appName}',
                         style: new TextStyle(
                             fontSize: 14.0,
                         ),

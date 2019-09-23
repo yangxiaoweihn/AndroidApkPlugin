@@ -98,7 +98,7 @@ class AndroidApkPlugin(private val registrar: Registrar) : MethodChannel.MethodC
         try {
 
             result.success("Android start install")
-            Install.startInstall(registrar.context(), path!!, authority)
+            Install.startInstall(registrar.context(), path!!)
         } catch (e: Exception) {
             e.printStackTrace()
             result.error("exception", e.message, null)
@@ -172,7 +172,7 @@ class AndroidApkPlugin(private val registrar: Registrar) : MethodChannel.MethodC
 
         val apps = Apps.queryInstalledMarketAppsInfo(registrar.context(), filter)
 
-        if (!apps.isEmpty()) {
+        if (apps.isNotEmpty()) {
 
             val data = JSONArray()
             apps.map {

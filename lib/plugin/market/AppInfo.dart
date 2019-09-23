@@ -31,4 +31,10 @@ class AppInfo {
             return new AppInfo.fromMap(item);
         }).toList();
     }
+
+    @override
+    String toString() {
+        return 'AppInfo{appName: $appName, appIconWidth: $appIconWidth, appIconHeight: $appIconHeight, packageName: $packageName, versionCode: $versionCode, versionName: $versionName, appIcon: $appIcon}';
+    }
+
 }

@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
                 new ListTile(
                     title: new Text('install apk'),
                     onTap: () {
-                        String path = 'file://ddd/xxx/x.apk';
+                        String path = '/data/user/0/ws.dyt.pluginandroidapkexample/cache/apk/app.apk';
                         this._printLog('invoke install: $path');
                         AndroidApkPlugin.installApk(path).then((result) {
                             this._printLog('invoke install callback: \n$result');

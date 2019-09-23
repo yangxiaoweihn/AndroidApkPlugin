@@ -13,7 +13,8 @@ class AndroidApkPlugin {
     static const String _TAG = 'AndroidApk';
 
     //install apk
-    static Future<String> installApk(String apkPath, {String authority}) async{
+    static Future<String> installApk(String apkPath) async{
+        String authority = '';//不用了
         print('$_TAG  apk-path: $apkPath , authority: $authority');
 
         Map<String, dynamic> data = {

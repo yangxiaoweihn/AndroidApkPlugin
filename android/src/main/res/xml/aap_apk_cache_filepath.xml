@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+	<paths>
+		<!-- 目前发现小米8 9.0没有root会报错 fuck -->
+		<root-path name="root" path="." />
+		<cache-path
+			name="apk_cache"
+			path="apk/" />
+		<external-cache-path
+			name="apk_cache"
+			path="apk/" />
+	</paths>
+</resources>
